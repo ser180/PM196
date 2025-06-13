@@ -1,25 +1,32 @@
+// 1. Zona de importaciones
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState } from 'react';
 
- const Texto= (props)=>{ //Hereda todo lo que tiene el teto, Realizar el componente dinaminco
-  const {children}=props 
-    return(
-      <Text>{children}</Text> // Lo que se pase a traves de contenido aparecera en el texto
-    )
-  }
+const Texto = () => {
+  const [contenido, setContenido] = useState('Hola Mundo') // Desetructuración de useState
+  const actualizaTexto = () => { setContenido('State Modificado') } //Cambia el estado o sea el texto
+  return (
+    <Text onPress={actualizaTexto}> {contenido} </Text> // Se agrega onPress que al presionar el texto manda a llamar actulizar contenido 
+  )
+}
 
 export default function App() { //Ejecuta o crea la vista del proyecto
+
+  const [contenidoB, setContenidoB] = useState('Touch me');
+  const actualizaTextoB = () => { setContenidoB('You already Touch me')};
+
   return (
 
     <View style={styles.container}>
       <StatusBar style="auto" />
-      
+
       <Texto>"Hola"</Texto>
       <Texto>"Mundo"</Texto>
       <Texto>React Native</Texto>
-      
-      <Button title="Touch me" />
-      
+
+      <Button title= {contenidoB} onPress={actualizaTextoB}></Button>
+
 
     </View>
   );
