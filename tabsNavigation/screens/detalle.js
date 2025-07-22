@@ -7,7 +7,7 @@ export default function Detalle({ navigation }) {
       <Ionicons name="information-circle-outline" size={60} color="#007BFF" />
       <Text style={styles.title}>Detalles del Usuario</Text>
       <Text style={styles.description}>
-        Aquí puedes ver la información detallada del perfil del usuario. Esta pantalla se accede desde el perfil usando navegación tipo Stack.
+        Aquí puedes ver la información detallada del perfil del usuario.
       </Text>
     </View>
   );
