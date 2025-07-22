@@ -1,137 +1,73 @@
-import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Modal,
-  TextInput,
-  FlatList,
-} from "react-native";
+//Zona de importaciones
+import { StatusBar } from 'expo-status-bar';    
+import { StyleSheet, Text, View, Button } from 'react-native';
+import React,{useState} from 'react';
+
+
+//Se cambia el parametro de promp a style para los estilos
+ const Texto=({style}) => {
+  const [contenido,setContenido] = useState('Hola');
+  const actualizarText=()=>{setContenido('Adios');}
+  //ahora el hijo de texto recibe el estilo
+  // y lo aplica al texto y no depende del padre
+  //si no le pasamos el estilo, se aplica el estilo por defecto
+     return (<Text  style={[styles.text,style]} onPress={actualizarText}> {contenido} </Text>) 
+    }
+
+ const Boton=(props) => {
+  const [tituloBoton, setTituloBoton] = useState('Touch me');
+  const Presionar = () => {setTituloBoton('You already touch me');};
+  return (<Button onPress={Presionar} title={tituloBoton}/>)
+ }
 
 export default function App() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [note, setNote] = useState("");
-  const [database, setDatabase] = useState([]);
-
-  const addNote = () => {
-    if (note.trim() !== "") {
-      setDatabase((prev) => [...prev, note]);
-      setNote("");
-      setModalVisible(false);
-    }
-  };
-
   return (
-    <View style={{ flex: 1 }}>
-      {/*  Header  */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Mi app de Notas C:</Text>
-      </View>
+    <View style={styles.container}>
 
-      <View style={styles.container}>
-        <FlatList
-          data={database}
-          keyExtractor={(item, index) => index}
-          renderItem={({ item }) => (
-            <View style={styles.nota}>
-              <Text>{item}</Text>
-            </View>
-          )}
-          ListEmptyComponent={<Text>No hay ni una nota :C</Text>}
-        />
-      </View>
+      {/* Si queremos hacer algo visible debe estar dentro de view, como si fuera el body 
+      Todo lo que queramos mostrar debe ir dentro de view y cada elemento tiene sus
+      etiquetas
+      */}
+      
+      <StatusBar style="auto" />
+      {/* Este estilo no va a funcionar ya que debe estar
+      declarado el estilo en el padre, es decir en el componente "Text" */}
+      <Texto style={styles.text}> </Texto>
 
-      <View style={styles.fabButton}>
-        <Button
-          title="Agregar Nota"
-          color="blue"
-          onPress={() => setModalVisible(true)}
-        ></Button>
-      </View>
-
-      <Modal visible={modalVisible} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={styles.modal}>
-            <Text style={{ marginBottom: 10 }}>Escribe tu nota:</Text>
-            <TextInput
-              value={note}
-              onChangeText={setNote}
-              placeholder="Escribe aquí..."
-              style={styles.input}
-            />
-            <View style={styles.modalBotones}>
-              <Button title="Guardar" color="#4caf50" onPress={addNote} />
-              <Button
-                title="Cancelar"
-                color="#f44336"
-                onPress={() => setModalVisible(false)}
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+      {/* Este estilo si va a funcionar ya que el componente "Texto" */}
+      <Texto style={styles.blue} ></Texto>
+      <Texto style={styles.red}></Texto>
+      <Texto style={styles.green}></Texto>
+      <Boton/>
     </View>
   );
 }
 
+// Zona de estilos
+// Estilos para la vista principal de la aplicacion
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'stretch', //para alinear los elementos al centro
+    flexDirection: 'columnn', //disposicion de los elementos
+    justifyContent: 'center',  //justify sirve para alinear los elementos
+    justifyContent: 'space-around' , //para alinear los elementos 
   },
-  header: {
-    width: "100%",
-    paddingTop: 50,
-    paddingBottom: 20,
-    backgroundColor: "blue",
-    alignItems: "center",
+
+  //Creamos la clase texto
+  //para darle estilos a los textos
+  text:{
+    //color del texto
+    color: 'purple',
+    //tamaño del texto
+    fontSize: 28,
   },
-  headerText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  fabButton: {
-    position: "absolute",
-    bottom: 60,
-    right: 30,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.3)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modal: {
-    width: "90%",
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 8,
-    borderRadius: 5,
-    marginBottom: 15,
-  },
-  modalBotones: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  nota: {
-    backgroundColor: "#e0e0e0",
-    padding: 10,
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderRadius: 5,
-  },
+  //Creamos estilos para textos de colores individuales
+  //disposicion flex
+  
+  blue:{backgroundColor: 'blue',  },
+  red:{backgroundColor: 'red',},
+  green:{backgroundColor: 'green',},
+
 });
